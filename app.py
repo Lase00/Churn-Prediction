@@ -6,11 +6,14 @@ from io import BytesIO
 
 # Load the trained model
 # URL of the raw pickle file in your GitHub repository
-url = 'https://raw.githubusercontent.com/<username>/<repository>/<branch>/finalized_logistic_regression_model.pkl'
+url = 'https://raw.githubusercontent.com/Lase00/Churn-Prediction/main/finalized_logistic_regression_model.pkl'
 
+# Fetch the pickle file
+response = requests.get(url)
+response.raise_for_status()  # Ensure the request was successful
 
-with open("finalized_logistic_regression_model.pkl", 'rb') as file:
-    lr_model = pickle.load(file)
+# Load the model
+lr_model = pickle.load(BytesIO(response.content))
 
 # Function to create sample customer
 feature_names = ['Contract', 'MonthlyCharges', 'tenure', 'OnlineSecurity', 'PhoneService', 'TechSupport', 'PaperlessBilling', 'TotalCharges', 'OnlineBackup', 'InternetService', 'SeniorCitizen', 'DeviceProtection']
