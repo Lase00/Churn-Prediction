@@ -1,8 +1,14 @@
 import streamlit as st
 import pandas as pd
 import pickle
+import requests
+from io import BytesIO
 
 # Load the trained model
+# URL of the raw pickle file in your GitHub repository
+url = 'https://raw.githubusercontent.com/<username>/<repository>/<branch>/finalized_logistic_regression_model.pkl'
+
+
 with open("finalized_logistic_regression_model.pkl", 'rb') as file:
     lr_model = pickle.load(file)
 
