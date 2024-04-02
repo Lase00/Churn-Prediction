@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import pickle
+import joblib
 import requests
 from io import BytesIO
 
@@ -13,7 +13,7 @@ response = requests.get(url)
 response.raise_for_status()  # Ensure the request was successful
 
 # Load the model
-lr_model = pickle.load(BytesIO(response.content))
+lr_model = joblib.load(BytesIO(response.content))
 
 # Function to create sample customer
 feature_names = ['Contract', 'MonthlyCharges', 'tenure', 'OnlineSecurity', 'PhoneService', 'TechSupport', 'PaperlessBilling', 'TotalCharges', 'OnlineBackup', 'InternetService', 'SeniorCitizen', 'DeviceProtection']
