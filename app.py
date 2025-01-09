@@ -71,43 +71,43 @@ sample_customer = create_sample_customer(
 # Convert the sample data to a DataFrame with correct column names
 sample_customer_df = pd.DataFrame([sample_customer], columns=feature_names)
 
-# Function to generate recommendations
+# Function to generate insights
 churn_prediction = lr_model.predict(sample_customer_df)
 
 # Interpreting the prediction
 prediction_text = "will churn" if churn_prediction[0] == 1 else "will not churn"
 print(f"The customer {prediction_text}.")
 
-# Function to generate recommendations
-def generate_recommendations(customer_features):
-    recommendations = []
-    # Example conditions for recommendations
+# Function to generate insights
+def generate_insights(customer_features):
+    insights = []
+    # Example conditions for insights
     if customer_features[9] == 0:  # Assuming 1 is 'Fiber optic'
-        recommendations.append("Consider offering a promotional deal on fiber optic services.")
+        insights.append("The customer may value cost-effective options over high-speed internet like fiber optic.")
     if customer_features[0] == 0:  # Assuming 0 is 'Month-to-month'
-        recommendations.append("Recommend switching to a longer-term contract for better stability.")
+        insights.append("The customer prefers flexibility with month-to-month contracts rather than long-term commitments.")
     if customer_features[8] == 0:  # Assuming this is 'OnlineBackup'
-        recommendations.append("Offer a discount on Online Backup services to enhance value.")
+        insights.append("The customer might not prioritize data security solutions like Online Backup services.")
     if customer_features[11] == 0:  # No Device Protection
-        recommendations.append("Suggest adding device protection to their plan for peace of mind.")
+        insights.append("The customer may not see device protection as a necessary value addition to their plan.")
     if customer_features[5] == 0:  # No Tech Support
-        recommendations.append("Advise the importance of tech support for uninterrupted service.")
+        insights.append("The customer may rely on self-resolution methods instead of Tech Support services.")
     if customer_features[2] <= 12:  # Less than 1 year
-        recommendations.append("Extend a loyalty program invitation after the first year.")
+        insights.append("The customer is relatively new and may still be exploring the service's value proposition.")
     if customer_features[1] > 75:  # High Monthly Charges
-        recommendations.append("Review the customer's plan to offer a competitive rate.")    
+        insights.append("The customer incurs high monthly charges, which might impact their satisfaction level.")    
     
-    return recommendations if recommendations else ["Customer Was Retained Amazing!!!!!"]
+    return insights if insights else ["Customer Was Retained Amazing!!!!!"]
 
-# Generate recommendations if the customer is predicted to churn
+# Generate insights if the customer is predicted to churn
 if churn_prediction[0] == 1:
-    recommendations = generate_recommendations(sample_customer)
-    print("Recommendations to prevent churn:")
-    for recommendation in recommendations:
-        print(f"- {recommendation}")
+    insights = generate_insights(sample_customer)
+    print("Insights From Churned Customer:")
+    for insights in insights:
+        print(f"- {insights}")
 
 # Streamlit UI
-st.title("Customer Churn Prediction and Recommendations")
+st.title("Customer Churn Prediction with Actionable Insights for Data-Driven Decisions")
 
 # Collect user inputs for each feature
 InternetService = st.selectbox('Internet Service', ['DSL', 'Fiber optic', 'No'])
@@ -126,7 +126,7 @@ total_charges = MonthlyCharges * tenure
 st.write(f"Calculated Total Charges: {total_charges}")
 
 # Button to make prediction
-if st.button('Predict Churn and Generate Recommendations'):
+if st.button('Predict Churn and Generate insights'):
     sample_customer = create_sample_customer(
         InternetService, 
         Contract,
@@ -146,9 +146,9 @@ if st.button('Predict Churn and Generate Recommendations'):
     prediction_text = "will churn" if churn_prediction[0] == 1 else "will not churn"
     st.write(f"The customer {prediction_text}.")
 
-    # Generate and display recommendations if the customer will churn
+    # Generate and display insights if the customer will churn
     if churn_prediction[0] == 1:
-        recommendations = generate_recommendations(sample_customer)
-        st.write("Recommendations to prevent churn:")
-        for recommendation in recommendations:
-            st.write(f"- {recommendation}")
+        insights = generate_insights(sample_customer)
+        st.write("Actionable Insights to Prevent Customer Churn:")
+        for insights in insights:
+            st.write(f"- {insights}")
